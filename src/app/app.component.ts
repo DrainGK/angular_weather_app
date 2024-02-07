@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
   weather: any;
   backgroundStyle: any;
   city: string = "";
+  public localTime?: string;
+  
 
 
   constructor(private weatherService: WeatherService){}
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit {
   getWeather(city: string): void{
     this.weatherService.getWeather(city).subscribe({
       next: (data) => {
+        
         this.weather = data; 
         this.temperature = Math.round(data.main.temp);
         this.minTemp = Math.round(data.main.temp_min);
@@ -66,21 +69,21 @@ export class AppComponent implements OnInit {
 
   updateBackground(weatherCondition: string){
     const baseUrl = "assets/";
-    let imageName = 'neutral.webp';
+    let imageName = 'neutral.gif';
 
     switch (weatherCondition){
       case 'Clouds':
-        imageName = 'cloudy.webp';
+        imageName = 'cloud.gif';
         break;
       case 'Clear':
-        imageName = 'sunny.webp';
+        imageName = 'sun.gif';
         break;
       case 'Rain':
       case 'Drizzle':
-        imageName = 'rainy.webp';
+        imageName = 'rain.gif';
         break;
       case 'Snow':
-        imageName = "snowy.webp";
+        imageName = "snow.gif";
         break;
     }
 
