@@ -13,10 +13,12 @@
     </mat-menu>
   </div>
 
-      <h2>{{weather.name}}</h2>
-      <button (click)="onFavoriteToggle(weather.name)" mat-icon-button class="fav">
-        <mat-icon [ngStyle]="isFav ? {'color':'red'} : {}">favorite</mat-icon>
-      </button>
+      <div class="city-name">
+        <h2>{{weather.name}}</h2>
+        <button (click)="onFavoriteToggle(weather.name)" mat-icon-button class="fav">
+          <mat-icon [ngStyle]="isFav ? {'color':'red'} : {}">favorite</mat-icon>
+        </button>
+      </div>
       <div class="temperature">
         <h1>{{temperature}}°</h1>
         <div class="temp-infos">

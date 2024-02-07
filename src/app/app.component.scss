@@ -57,15 +57,20 @@
          }
     }
 
+    .city-name{
 
-    h2{
+        display: flex;
 
-        width: fit-content;
-        padding: 0;
-        margin: 0 1rem;
+        h2{
+    
+            width: fit-content;
+            padding: 0;
+            margin: 0 1rem;
+    
+            font-weight: lighter;
+            font-size: 2.2rem;
+        }
 
-        font-weight: lighter;
-        font-size: 2.2rem;
     }
 
     .temperature{
