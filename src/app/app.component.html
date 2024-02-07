@@ -1,33 +1,48 @@
-<div class="weather-container" [ngStyle]="backgroundStyle">
 
-  <input #city (keyup.enter)="updateCity(city.value)" placeholder="search city..." class="input">
-  
-  <h2>{{weather.name}}</h2>
-  <div class="temperature">
-    <h1>{{temperature}}°</h1>
-    <div class="temp-infos">
-      <p>↓ {{minTemp}}°</p>
-      <p>↑ {{maxTemp}}°</p>
-    </div>
+<div class="weather-container" [ngStyle]="backgroundStyle"> 
+  <div class="navbar">
+    <input #city (keyup.enter)="updateCity(city.value)" placeholder="search city..." class="input">
+    <button [matMenuTriggerFor]="menu" mat-icon-button class="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+        <h3 mat-menu-item>FAVORITES</h3>
+        <div *ngFor="let item of favorite">
+          <button class="fav-button" mat-menu-item color="warn" (click)="updateCity(item.name)">{{ item.name }}</button>
+        </div>
+    </mat-menu>
   </div>
-  <mat-card>
-    <mat-card-content>
-      <p>{{weather.weather[0].main}}</p>
-      <mat-divider></mat-divider>
-      <div class="weather-conditions">
-        <div class="humidity condition">
-          <mat-icon>water_drop</mat-icon>
-          <p>{{weather.main.humidity}}%</p>
-        </div>
-        <div class="visibility condition">
-          <mat-icon>visibility</mat-icon>
-          <p>{{weather.visibility}} m</p>
-        </div>
-        <div class="wind condition">
-          <mat-icon>air</mat-icon>
-          <p>{{weather.wind.speed}} km/h</p>
+
+      <h2>{{weather.name}}</h2>
+      <button (click)="onFavoriteToggle(weather.name)" mat-icon-button class="fav">
+        <mat-icon [ngStyle]="isFav ? {'color':'red'} : {}">favorite</mat-icon>
+      </button>
+      <div class="temperature">
+        <h1>{{temperature}}°</h1>
+        <div class="temp-infos">
+          <p>↓ {{minTemp}}°</p>
+          <p>↑ {{maxTemp}}°</p>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
-</div>
+      <mat-card>
+        <mat-card-content>
+          <p>{{weather.weather[0].main}}</p>
+          <mat-divider></mat-divider>
+          <div class="weather-conditions">
+            <div class="humidity condition">
+              <mat-icon>water_drop</mat-icon>
+              <p>{{weather.main.humidity}}%</p>
+            </div>
+            <div class="visibility condition">
+              <mat-icon>visibility</mat-icon>
+              <p>{{weather.visibility}} m</p>
+            </div>
+            <div class="wind condition">
+              <mat-icon>air</mat-icon>
+              <p>{{weather.wind.speed}} km/h</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      
+    </div>

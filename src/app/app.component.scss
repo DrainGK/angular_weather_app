@@ -15,31 +15,48 @@
     background-repeat: no-repeat;
     background-size: cover;
 
-    .input{
-        display: block;
-        margin: 0 auto;
-        margin-bottom: 1rem;
-        height: 40px;
-        width: 250px;
-        background-color: transparent;
-        border: none;
+    .navbar{
 
-        color: white;
-        font-weight: lighter;
-        font-size: 1.5rem;
+        display: flex;
+        position: relative;
 
-        text-align: center;
-        text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.692);
+        .input{
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+            height: 30px;
+            width: 225px;
+            background-color: transparent;
+            border: none;
+    
+            color: white;
+            font-weight: lighter;
+            font-size: 1rem;
+    
+            text-align: center;
+            text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.692);
+        }
+    
+        .input:focus{
+            outline: 0.5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+        }
+    
+        .input::placeholder{
+            color: whitesmoke;
+        }
+
+        .menu{
+            position: absolute;
+            right: 3%;
+            top: -15%;
+        }
+
+        .menu-content{
+            background-color: red;
+         }
     }
 
-    .input:focus{
-        outline: 0.5px solid white;
-        border-radius: 5px;
-    }
-
-    .input::placeholder{
-        color: whitesmoke;
-    }
 
     h2{
 

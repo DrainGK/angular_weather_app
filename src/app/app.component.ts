@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @Component({
@@ -24,6 +26,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     FormsModule,
     MatFormFieldModule,
+    MatButtonModule,
+    MatMenuModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -37,6 +41,9 @@ export class AppComponent implements OnInit {
   backgroundStyle: any;
   city: string = "";
   public localTime?: string;
+  favorite: {name: string, isFav: boolean}[] = [];
+
+  isFav = false;
   
 
 
@@ -56,7 +63,8 @@ export class AppComponent implements OnInit {
         this.maxTemp = Math.round(data.main.temp_max);
         const weatherCondition = data.weather[0].main;
         this.updateBackground(weatherCondition);
-        console.log('weather data:', data)
+        console.log('weather data:', data);
+        this.checkIsFav(city);
       },
       error: (error) => console.error('there was an error!', error)
     });
@@ -67,6 +75,27 @@ export class AppComponent implements OnInit {
     this.getWeather(this.city);
   }
 
+  onFavoriteToggle(city: string){
+    const cityIndex = this.favorite.findIndex(fav => fav.name.toLowerCase() === city.toLowerCase());
+
+    if (cityIndex === -1) {
+      // Add city as favorite if not found
+      this.favorite.push({name: city, isFav: true});
+    } else {
+      // Remove city from favorites if already present
+      this.favorite.splice(cityIndex, 1);
+    }
+
+    // Update isFav based on the current city's favorite status
+    this.checkIsFav(city);
+  }
+
+  checkIsFav(city: string) {
+    const cityObj = this.favorite.find(fav => fav.name.toLowerCase() === city.toLowerCase());
+    this.isFav = !!cityObj; // isFav is true if cityObj is not undefined
+  }
+  
+
   updateBackground(weatherCondition: string){
     const baseUrl = "assets/";
     let imageName = 'neutral.gif';
@@ -76,7 +105,7 @@ export class AppComponent implements OnInit {
         imageName = 'cloud.gif';
         break;
       case 'Clear':
-        imageName = 'sun.gif';
+        imageName = 'day.gif';
         break;
       case 'Rain':
       case 'Drizzle':
