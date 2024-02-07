@@ -11,6 +11,13 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  MatSnackBar,
+  MatSnackBarAction,
+  MatSnackBarActions,
+  MatSnackBarLabel,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -47,10 +54,23 @@ export class AppComponent implements OnInit {
   
 
 
-  constructor(private weatherService: WeatherService){}
+  constructor(private weatherService: WeatherService, private _snackBar: MatSnackBar){}
 
   ngOnInit(): void {
+    this.loadFavorites();
     this.getWeather('Tokyo');
+  }
+
+  saveFavorites() {
+    localStorage.setItem('favorites', JSON.stringify(this.favorite));
+  }
+
+  loadFavorites() {
+    const favorites = localStorage.getItem('favorites');
+    if (favorites) {
+      this.favorite = JSON.parse(favorites);
+      this.checkIsFav(this.city);
+    }
   }
 
   getWeather(city: string): void{
@@ -77,17 +97,28 @@ export class AppComponent implements OnInit {
 
   onFavoriteToggle(city: string){
     const cityIndex = this.favorite.findIndex(fav => fav.name.toLowerCase() === city.toLowerCase());
+    
+    let snackBarMessage = "";
 
     if (cityIndex === -1) {
       // Add city as favorite if not found
       this.favorite.push({name: city, isFav: true});
+      snackBarMessage = `${city} added to favorites!`;
+      
     } else {
       // Remove city from favorites if already present
       this.favorite.splice(cityIndex, 1);
+      snackBarMessage = `${city} removed from favorites!`;
     }
 
     // Update isFav based on the current city's favorite status
     this.checkIsFav(city);
+
+    this._snackBar.open(snackBarMessage, 'Close', {
+      duration: 1000, // Duration in milliseconds after which the snackbar will disappear
+    });
+
+    this.saveFavorites();
   }
 
   checkIsFav(city: string) {
